@@ -11,7 +11,7 @@ PG_LOG_OPTS = -l $(PG_FOLDER)/postgres.log
 REDIS_FOLDER = ./redis
 REDIS_OPTS = ./redis.conf
 
-GROC_OPTS = --whitespace-after-token true --github -i Makefile
+GROC_OPTS = --whitespace-after-token true --github -i Makefile -o ./doc
 GROC_FILES = Makefile
 
 DB_NAME = test
