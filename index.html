@@ -1,0 +1,80 @@
+<!DOCTYPE html><html lang="en"><head><title>index</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="index"><meta name="groc-project-path" content="Makefile"><meta name="groc-github-url" content="https://github.com/chakrit/db"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/chakrit/db/blob/master/Makefile">Makefile</a></div></div><div id="document"><div class="segment"></div><div class="segment"><div class="comments"><div class="wrapper"><h1 id="makefile">Makefile</h1>
+
+<p>Makefile define tasks you can do with the db/
+project you've just cloned.</p></div></div><div class="code"><div class="wrapper"><span class="nv">PG_FOLDER</span> <span class="o">=</span> ./pg
+<span class="nv">PG_DB_OPTS</span> <span class="o">=</span> -D <span class="k">$(</span>PG_FOLDER<span class="k">)</span>
+<span class="nv">PG_LOG_OPTS</span> <span class="o">=</span> -l <span class="k">$(</span>PG_FOLDER<span class="k">)</span>/postgres.log
+
+<span class="nv">REDIS_FOLDER</span> <span class="o">=</span> ./redis
+<span class="nv">REDIS_OPTS</span> <span class="o">=</span> ./redis.conf
+
+<span class="nv">GROC_OPTS</span> <span class="o">=</span> --whitespace-after-token <span class="nb">true</span> --github -i Makefile
+<span class="nv">GROC_FILES</span> <span class="o">=</span> Makefile
+
+<span class="nv">DB_NAME</span> <span class="o">=</span> <span class="nb">test</span>
+
+
+default: doc
+  @echo open doc/Makefile.html to view <span class="se">\</span>
+    list of available tasks.</div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="make-doc">make doc</h3>
+
+<p>Generates the document file (you're probably
+reading it)</p></div></div><div class="code"><div class="wrapper">doc:
+  groc <span class="k">$(</span>GROC_OPTS<span class="k">)</span> <span class="k">$(</span>GROC_FILES<span class="k">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="make-clean">make clean</h3>
+
+<p>Cleans all files and reset the whole repository
+to mint condition.</p>
+
+<p><strong>WARNING:</strong> Also erases all data in all
+database.</p></div></div><div class="code"><div class="wrapper">clean:
+  git clean -xdf .</div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h1 id="postgresql-tasks">POSTGRESQL TASKS</h1></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="make-pg-init">make pg-init</h3>
+
+<p>Creates and initializes a ./pg directory with
+files required to for a standard PostgreSQL
+installation to run.</p></div></div><div class="code"><div class="wrapper">pg-init:
+  mkdir -p <span class="k">$(</span>PG_FOLDER<span class="k">)</span>
+  initdb <span class="k">$(</span>PG_DB_OPTS<span class="k">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="make-pg-run">make pg-run</h3>
+
+<p>Runs a PostgreSQL instance in the current
+terminal window using the ./pg folder as the
+data directory. Terminates with CTRL-C.</p></div></div><div class="code"><div class="wrapper">pg-run:
+  postgres <span class="k">$(</span>PG_DB_OPTS<span class="k">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="make-pg-start">make pg-start</h3>
+
+<p>Starts a PostgreSQL instance as a background
+service using the ./pg folder as the data
+directory. Terminates with pg-stop task.</p></div></div><div class="code"><div class="wrapper">pg-start:
+  pg_ctl start <span class="k">$(</span>PG_DB_OPTS<span class="k">)</span> <span class="k">$(</span>PG_LOG_OPTS<span class="k">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="make-pg-stop">make pg-stop</h3>
+
+<p>Stops the PostgreSQL background service ran
+with the task <code>pg-start</code></p></div></div><div class="code"><div class="wrapper">pg-stop:
+  pg_ctl stop <span class="k">$(</span>PG_DB_OPTS<span class="k">)</span> <span class="k">$(</span>PG_LOG_OPTS<span class="k">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h1 id="redis-tasks">REDIS TASKS</h1></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="make-redis-init">make redis-init</h3>
+
+<p>Creates a redis/ folder to store redis database
+files.</p></div></div><div class="code"><div class="wrapper">redis-init:
+  mkdir -p <span class="k">$(</span>REDIS_FOLDER<span class="k">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="make-redis-run">make redis-run</h3>
+
+<p>Starts a Redis server instance in the current
+terminal window. Terminates with CTRL-C or
+<code>redis-stop</code> from another terminal.</p></div></div><div class="code"><div class="wrapper">redis-run:
+  redis-server <span class="k">$(</span>REDIS_OPTS<span class="k">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="make-redis-start">make redis-start</h3>
+
+<p>Starts a Redis server instance as a background
+service. Terminates with <code>redis-stop</code> or sends
+the redis command <code>SHUTDOWN</code>.</p></div></div><div class="code"><div class="wrapper">redis-start:
+  redis-server <span class="k">$(</span>REDIS_OPTS<span class="k">)</span> &amp;</div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="make-redis-stop">make redis-stop</h3>
+
+<p>Stops any Redis instance listening on the
+default port by sending a <code>SHUTDOWN</code> command.</p></div></div><div class="code"><div class="wrapper">redis-stop:
+  redis-cli SHUTDOWN</div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h1 id="mailcatcher-tasks">MAILCATCHER TASKS</h1></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="make-mc-run">make mc-run</h3></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Runs an instance of Mailcatcher using the
+configured options as a foreground process
+in the current terminal.
+Terminates with CTRL-C.</p></div></div><div class="code"><div class="wrapper">mc-run:
+  mailcatcher --foreground</div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="make-mc-start">make mc-start</h3></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Runs an instance of Mailcatcher using the
+configured options as a background process.
+Terminate with <code>mc-stop</code></p></div></div><div class="code"><div class="wrapper">mc-start:
+  mailcatcher</div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="make-mc-stop">make mc-stop</h3></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Stops an instance of Mailcatcher running
+as a background process.</p></div></div><div class="code"><div class="wrapper">mc-stop:
+  curl -v -X DELETE http://0.0.0.0:1080
+
+
+.PHONY: default doc pg-* redis-* mc-*</div></div></div></div></body></html>
