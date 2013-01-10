@@ -107,5 +107,32 @@ redis-stop:
 	redis-cli SHUTDOWN
 
 
-.PHONY: default doc pg-* redis-*
+# # MAILCATCHER TASKS
+
+# ### make mc-run
+
+# Runs an instance of Mailcatcher using the
+# configured options as a foreground process
+# in the current terminal.
+# Terminates with CTRL-C.
+mc-run:
+	mailcatcher --foreground
+
+# ### make mc-start
+
+# Runs an instance of Mailcatcher using the
+# configured options as a background process.
+# Terminate with `mc-stop`
+mc-start:
+	mailcatcher
+
+# ### make mc-stop
+
+# Stops an instance of Mailcatcher running
+# as a background process.
+mc-stop:
+	curl -v -X DELETE http://0.0.0.0:1080
+
+
+.PHONY: default doc pg-* redis-* mc-*
 
