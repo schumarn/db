@@ -4,9 +4,9 @@
 # Makefile define tasks you can do with the db/
 # project you've just cloned.
 
-PG_FOLDER = ./pg
-PG_OPTS   = -D $(PG_FOLDER) \
-            -l $(PG_FOLDER)/postgres.log
+PG_FOLDER   = ./pg
+PG_OPTS     = -D $(PG_FOLDER)
+PG_LOG_OPTS = -l $(PG_FOLDER)/postgres.log
 
 REDIS_FOLDER = ./redis
 REDIS_OPTS   = ./redis/redis.conf
