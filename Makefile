@@ -11,6 +11,7 @@ PG_OPTS   = -D $(PG_FOLDER) \
 REDIS_FOLDER = ./redis
 REDIS_OPTS   = ./redis/redis.conf
 
+# damn backticks!
 MYSQL_WHICH            = $(shell which mysql_install_db)
 MYSQL_READLINK         = $(shell readlink $(MYSQL_WHICH))
 MYSQL_DIRNAME          = $(shell dirname $(MYSQL_WHICH))
