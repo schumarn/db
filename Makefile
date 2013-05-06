@@ -5,13 +5,24 @@
 # project you've just cloned.
 
 PG_FOLDER = ./pg
-PG_DB_OPTS = -D $(PG_FOLDER)
-PG_LOG_OPTS = -l $(PG_FOLDER)/postgres.log
+PG_OPTS   = -D $(PG_FOLDER) \
+            -l $(PG_FOLDER)/postgres.log
 
 REDIS_FOLDER = ./redis
-REDIS_OPTS = ./redis/redis.conf
+REDIS_OPTS   = ./redis/redis.conf
 
-GROC_OPTS = --whitespace-after-token true --github -i Makefile -o ./doc
+MYSQL_WHICH            = $(shell which mysql_install_db)
+MYSQL_READLINK         = $(shell readlink $(MYSQL_WHICH))
+MYSQL_DIRNAME          = $(shell dirname $(MYSQL_WHICH))
+MYSQL_READLINK_DIRNAME = $(shell dirname $(MYSQL_READLINK))
+
+MYSQL_ROOT   = $(shell dirname $(MYSQL_DIRNAME)/$(MYSQL_READLINK_DIRNAME))
+MYSQL_FOLDER = ./mysql
+MYSQL_OPTS   = --datadir=$(MYSQL_FOLDER) \
+               --basedir=$(MYSQL_ROOT) \
+               --user=$(whoami) \
+
+GROC_OPTS  = --whitespace-after-token true --github -i Makefile -o ./doc
 GROC_FILES = Makefile
 
 
@@ -46,7 +57,7 @@ clean:
 # installation to run.
 pg-init:
 	mkdir -p $(PG_FOLDER)
-	initdb $(PG_DB_OPTS)
+	initdb $(PG_OPTS)
 
 # ### make pg-run
 
@@ -54,7 +65,7 @@ pg-init:
 # terminal window using the ./pg folder as the
 # data directory. Terminates with CTRL-C.
 pg-run:
-	postgres $(PG_DB_OPTS)
+	postgres $(PG_OPTS)
 
 # ### make pg
 
@@ -62,14 +73,43 @@ pg-run:
 # service using the ./pg folder as the data
 # directory. Terminates with pg-stop task.
 pg:
-	pg_ctl start $(PG_DB_OPTS) $(PG_LOG_OPTS)
+	pg_ctl start $(PG_OPTS) $(PG_LOG_OPTS)
 
 # ### make pg-stop
 
 # Stops the PostgreSQL background service ran
 # with the task `pg-start`
 pg-stop:
-	pg_ctl stop $(PG_DB_OPTS) $(PG_LOG_OPTS)
+	pg_ctl stop $(PG_OPTS) $(PG_LOG_OPTS)
+
+
+# # MYSQL TASKS
+
+# ### make mysql-init
+
+# Creates and initializes a MySQL data directory in ./mysql with files and tables properly
+# configured to run a MySQL server instance from.
+mysql-init:
+	mysql_install_db $(MYSQL_OPTS)
+
+# ### make mysql-run
+
+# Starts a MySQL server instance in the foreground occupying the current terminal window.
+# Terminates with CTRL-C or `make mysql-stop`
+mysql-run:
+	mysqld $(MYSQL_OPTS)
+
+# ### make mysql
+
+# Starts a MySQL server instance in the background. Terminates with `make mysql-stop`
+mysql:
+	mysqld $(MYSQL_OPTS) &
+
+# ### make mysql-stop
+
+# Sends a SHUTDOWN signal to the current MySQL server instance.
+mysql-stop:
+	sudo mysqladmin shutdown
 
 
 # # REDIS TASKS
@@ -127,5 +167,5 @@ mc-stop:
 	curl -v -X DELETE http://0.0.0.0:1080
 
 
-.PHONY: default doc pg pg-* redis redis-* mc mc-*
+.PHONY: default doc pg pg-* mysql mysql-* redis redis-* mc mc-*
 
