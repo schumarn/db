@@ -1,6 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><title>index</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="index"><meta name="groc-project-path" content="Makefile"><meta name="groc-github-url" content="https://github.com/chakrit/db"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/chakrit/db/blob/master/Makefile">Makefile</a></div></div><div id="document"><div class="segment"></div><div class="segment"><div class="comments"><div class="wrapper"><h1 id="makefile">Makefile</h1>
-
-<p>Makefile define tasks you can do with the db/
+<!DOCTYPE html><html lang="en"><head><title>index</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="index"><meta name="groc-project-path" content="Makefile"><meta name="groc-github-url" content="https://github.com/chakrit/db"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/chakrit/db/blob/master/Makefile">Makefile</a></div></div><div id="document"><div class="segment"></div><div class="segment"><div class="comments"><div class="wrapper"><h1 id="makefile">Makefile</h1></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Makefile define tasks you can do with the db/
 project you've just cloned.</p></div></div><div class="code"><div class="wrapper"><span class="nv">PG_FOLDER</span> <span class="o">=</span> ./pg
 <span class="nv">PG_OPTS</span>   <span class="o">=</span> -D <span class="k">$(</span>PG_FOLDER<span class="k">)</span> <span class="se">\</span>
             -l <span class="k">$(</span>PG_FOLDER<span class="k">)</span>/postgres.log
@@ -58,18 +56,14 @@ service. Terminates with <code>redis-stop</code> or sends
 the redis command <code>SHUTDOWN</code>.</p></div></div><div class="code"><div class="wrapper"><span class="nf">redis</span><span class="o">:</span>
   redis-server <span class="k">$(</span>REDIS_OPTS<span class="k">)</span> &amp;</div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="make-redis-stop">make redis-stop</h3></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Stops any Redis instance listening on the
 default port by sending a <code>SHUTDOWN</code> command.</p></div></div><div class="code"><div class="wrapper"><span class="nf">redis-stop</span><span class="o">:</span>
-  redis-cli SHUTDOWN</div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h1 id="mailcatcher-tasks">MAILCATCHER TASKS</h1></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="make-mc-run">make mc-run</h3></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Runs an instance of Mailcatcher using the
-configured options as a foreground process
-in the current terminal.
-Terminates with CTRL-C.</p></div></div><div class="code"><div class="wrapper"><span class="nf">mc-run</span><span class="o">:</span>
+  redis-cli SHUTDOWN</div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h1 id="mailcatcher-tasks">MAILCATCHER TASKS</h1></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="make-mc-run">make mc-run</h3></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Runs an instance of Mailcatcher using the configured options as a foreground process in
+the current terminal.  Terminates with CTRL-C.</p></div></div><div class="code"><div class="wrapper"><span class="nf">mc-run</span><span class="o">:</span>
   mailcatcher --foreground</div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="make-mc">make mc</h3>
 
-<h3 id="make-mailcatcher">make mailcatcher</h3></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Runs an instance of Mailcatcher using the
-configured options as a background process.
+<h3 id="make-mailcatcher">make mailcatcher</h3></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Runs an instance of Mailcatcher using the configured options as a background process.
 Terminate with <code>mc-stop</code></p></div></div><div class="code"><div class="wrapper"><span class="nf">mailcatcher</span><span class="o">:</span> <span class="m">| mc</span>
 <span class="nf">mc</span><span class="o">:</span>
-  mailcatcher</div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="make-mc-stop">make mc-stop</h3></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Stops an instance of Mailcatcher running
-as a background process.</p></div></div><div class="code"><div class="wrapper"><span class="nf">mc-stop</span><span class="o">:</span>
+  mailcatcher</div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="make-mc-stop">make mc-stop</h3></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Stops an instance of Mailcatcher running as a background process.</p></div></div><div class="code"><div class="wrapper"><span class="nf">mc-stop</span><span class="o">:</span>
   curl -v -X DELETE http://0.0.0.0:1080
 
 
