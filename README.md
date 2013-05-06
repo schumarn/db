@@ -23,6 +23,11 @@ and also if you have just ran `git-clean` for the service.
 $ make pg-init mysql-init redis-init
 ```
 
+**NOTE:** To properly initializes and run PostgreSQL locally on OS X you may need to
+increase your system's `kern.sysv.shmall` value to at least 4096. Read
+[Increasing Shared Memory for Postgres on OS X](http://benscheirman.com/2011/04/increasing-shared-memory-for-postgres-on-os-x/)
+for more info.
+
 ### START
 
 For example, to start PostgreSQL, Redis and Mailcatcher all at once, just run:
