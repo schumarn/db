@@ -20,7 +20,7 @@ You needs to run this command once for each service that requires initializing
 and also if you have just ran `git-clean` for the service.
 
 ```sh
-$ make pg-init redis-init
+$ make pg-init mysql-init redis-init
 ```
 
 ### START
@@ -28,7 +28,7 @@ $ make pg-init redis-init
 For example, to start PostgreSQL, Redis and Mailcatcher all at once, just run:
 
 ```sh
-$ make pg-start redis-start mc-start
+$ make pg mysql redis
 ```
 
 ### STOP
@@ -36,7 +36,7 @@ $ make pg-start redis-start mc-start
 Stopping services is just as easy:
 
 ```sh
-$ make pg-stop redis-stop mc-stop
+$ make pg-stop mysql-stop redis-stop
 ```
 
 ### CLEAN
@@ -71,5 +71,9 @@ PRs also accepted.
 
 * CouchDb
 * MongoDb
-* MySQL
+
+Other non-database services:
+
+* Mailcatcher
+* Stunnel
 

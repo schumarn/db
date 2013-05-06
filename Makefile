@@ -1,6 +1,6 @@
 
 # # Makefile
-# 
+
 # Makefile define tasks you can do with the db/
 # project you've just cloned.
 
@@ -142,18 +142,15 @@ redis-stop:
 
 # ### make mc-run
 
-# Runs an instance of Mailcatcher using the
-# configured options as a foreground process
-# in the current terminal.
-# Terminates with CTRL-C.
+# Runs an instance of Mailcatcher using the configured options as a foreground process in
+# the current terminal.  Terminates with CTRL-C.
 mc-run:
 	mailcatcher --foreground
 
 # ### make mc  
 # ### make mailcatcher
 
-# Runs an instance of Mailcatcher using the
-# configured options as a background process.
+# Runs an instance of Mailcatcher using the configured options as a background process.
 # Terminate with `mc-stop`
 mailcatcher: | mc
 mc:
@@ -161,8 +158,7 @@ mc:
 
 # ### make mc-stop
 
-# Stops an instance of Mailcatcher running
-# as a background process.
+# Stops an instance of Mailcatcher running as a background process.
 mc-stop:
 	curl -v -X DELETE http://0.0.0.0:1080
 
