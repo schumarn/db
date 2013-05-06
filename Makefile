@@ -9,12 +9,10 @@ PG_DB_OPTS = -D $(PG_FOLDER)
 PG_LOG_OPTS = -l $(PG_FOLDER)/postgres.log
 
 REDIS_FOLDER = ./redis
-REDIS_OPTS = ./redis.conf
+REDIS_OPTS = ./redis/redis.conf
 
 GROC_OPTS = --whitespace-after-token true --github -i Makefile -o ./doc
 GROC_FILES = Makefile
-
-DB_NAME = test
 
 
 default: doc
@@ -58,12 +56,12 @@ pg-init:
 pg-run:
 	postgres $(PG_DB_OPTS)
 
-# ### make pg-start
+# ### make pg
 
 # Starts a PostgreSQL instance as a background
 # service using the ./pg folder as the data
 # directory. Terminates with pg-stop task.
-pg-start:
+pg:
 	pg_ctl start $(PG_DB_OPTS) $(PG_LOG_OPTS)
 
 # ### make pg-stop
@@ -76,13 +74,6 @@ pg-stop:
 
 # # REDIS TASKS
 
-# ### make redis-init
-
-# Creates a redis/ folder to store redis database
-# files.
-redis-init:
-	mkdir -p $(REDIS_FOLDER)
-
 # ### make redis-run
 
 # Starts a Redis server instance in the current
@@ -91,12 +82,12 @@ redis-init:
 redis-run:
 	redis-server $(REDIS_OPTS)
 
-# ### make redis-start
+# ### make redis
 
 # Starts a Redis server instance as a background
 # service. Terminates with `redis-stop` or sends
 # the redis command `SHUTDOWN`.
-redis-start:
+redis:
 	redis-server $(REDIS_OPTS) &
 
 # ### make redis-stop
@@ -118,12 +109,14 @@ redis-stop:
 mc-run:
 	mailcatcher --foreground
 
-# ### make mc-start
+# ### make mc  
+# ### make mailcatcher
 
 # Runs an instance of Mailcatcher using the
 # configured options as a background process.
 # Terminate with `mc-stop`
-mc-start:
+mailcatcher: | mc
+mc:
 	mailcatcher
 
 # ### make mc-stop
@@ -134,5 +127,5 @@ mc-stop:
 	curl -v -X DELETE http://0.0.0.0:1080
 
 
-.PHONY: default doc pg-* redis-* mc-*
+.PHONY: default doc pg pg-* redis redis-* mc mc-*
 
