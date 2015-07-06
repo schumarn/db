@@ -26,6 +26,10 @@ MYSQL_OPTS   = --datadir=$(MYSQL_FOLDER) \
 GROC_OPTS  = --whitespace-after-token true --github -i Makefile -o ./doc
 GROC_FILES = Makefile
 
+MONGO_FOLDER   = ./mongodb
+MONGO_OPTS     = --dbpath $(MONGO_FOLDER)
+MONGO_LOG_OPTS = --logpath $(MONGO_FOLDER)/mongodb.log
+
 
 default: doc
 	@echo open doc/Makefile.html to view \
@@ -164,5 +168,35 @@ mc-stop:
 	curl -v -X DELETE http://0.0.0.0:1080
 
 
-.PHONY: default doc pg pg-* mysql mysql-* redis redis-* mc mc-*
+# # MONGODB TASKS
+
+# ### make mongo-init
+
+# Creates a ./mongodb directory to store data files to be used by a mongod instance.
+mongo-init:
+	mkdir -p $(MONGO_FOLDER)
+
+# ### make mongo-run
+
+# Starts a mongod instance in the foreground occupying the current terminal window.
+# Terminates with CTRL-C.
+mongo-run:
+	mongod $(MONGO_OPTS)
+
+# ### make mongo
+
+# Starts a mongod instance in the background.
+# Terminates with mongo-stop task.
+mongo:
+	mongod $(MONGO_OPTS) --fork $(MONGO_LOG_OPTS)
+
+# ### make mongo-stop
+
+# Stops the mongod background process.
+# Since --shutdown option is only available in Linux,
+# we need to shut it down from mongo shell.
+mongo-stop:
+	mongo admin --eval "db.shutdownServer()"
+
+.PHONY: default doc pg pg-* mysql mysql-* redis redis-* mc mc-* mongo mongo-*
 

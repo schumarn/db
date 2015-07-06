@@ -3,4 +3,5 @@ doc/
 pg/
 mysql/
 redis/
+mongodb/
 
